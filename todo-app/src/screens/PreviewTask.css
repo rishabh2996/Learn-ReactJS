@@ -1,0 +1,50 @@
+.preview-task {
+  margin-top: 6rem;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50%;
+}
+
+.preview-task-button {
+  font-size: large;
+  margin-left: 20px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: -2rem;
+  background-color: #6dadfe;
+  color: white;
+  border: 2px solid #6dadfe;
+  transition-duration: 0.4s;
+  border-radius: 5px;
+}
+
+.preview-task-button:hover {
+  background-color: white;
+  color: black;
+}
+
+.button-section {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.task-info {
+  border: 2px solid #34568b;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+.info-table {
+  border-spacing: 30px;
+}
+
+.info {
+  font-size: x-large;
+}
+
+.info-label {
+  font-size: large;
+}
