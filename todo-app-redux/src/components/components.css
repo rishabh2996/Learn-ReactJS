@@ -1,0 +1,63 @@
+.header {
+  margin-top: 5%;
+  padding-bottom: 2rem;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px;
+}
+
+.app-title {
+  color: grey;
+}
+
+.create-task-button {
+  float: right;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: -20px;
+  background-color: #34568b;
+  color: white;
+  border: 2px solid #34568b;
+  transition-duration: 0.4s;
+  border-radius: 10px;
+}
+
+.create-task-button:hover {
+  background-color: white;
+  color: #34568b;
+}
+
+.task-item {
+  color: brown;
+  text-align: center;
+  border: 5px solid darkblue;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  color: #34568b;
+  font-size: xx-large;
+  font-weight: bold;
+  text-decoration: "none";
+  margin-bottom: 10px;
+}
+
+.created-by {
+  display: inline-block;
+  position: relative;
+  right: 100px;
+}
+
+.deadline {
+  display: inline-block;
+  position: relative;
+  left: 100px;
+}

@@ -1,12 +1,13 @@
 import React from "react"
 import './CreateEditTask.css'
-import { Link, withRouter } from "react-router-dom";
-// import history from '../routeHistory';
+import { Link } from "react-router-dom";
+import { addTodo } from '../actions'
+import { editTodo } from '../actions'
+import { connect } from 'react-redux'
 
 class CreateEditTask extends React.Component {
-    constructor(props) {
+    constructor(props){
         super(props)
-
         this.state = {
             title: "",
             createdBy: "",
@@ -14,17 +15,18 @@ class CreateEditTask extends React.Component {
             deadline: "",
             description: "",
         }
-
-        const id = props.edit == true ? localStorage.getItem('id') : null
-        if(props.edit == true){
-            const task = props.todoList.find(element => element.id == id)
-            this.state.title = task.title
-            this.state.createdBy = task.createdBy
-            this.state.dateOfCreation = task.dateOfCreation
-            this.state.deadline = task.deadline
-            this.state.description = task.description
-        }
     }
+        
+
+        // id = edit === true ? localStorage.getItem('id') : null
+        // if(edit == true){
+        //     const task = todoList.find(element => element.id === id)
+        //     title = task.title
+        //     createdBy = task.createdBy
+        //     dateOfCreation = task.dateOfCreation
+        //     deadline = task.deadline
+        //     description = task.description
+        // }
 
     handleTitleChange = (event) => {
         this.setState({
@@ -32,25 +34,25 @@ class CreateEditTask extends React.Component {
         })
     }
     handleCreatedByChange = (event) => {
-        this.setState({
+            this.setState({
             createdBy: event.target.value
         })
     }
     handleDeadlineChange = (event) => {
-        this.setState({
+            this.setState({
             deadline: event.target.value
         })
     }
     handleDescriptionChange = (event) => {
-        this.setState({
+            this.setState({
             description: event.target.value
         })
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
+        const { dispatch } = this.props;  
         let today = new Date();
-
         this.state.dateOfCreation = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         const todoData = {
             title: this.state.title,
@@ -60,17 +62,14 @@ class CreateEditTask extends React.Component {
             description: this.state.description,
             id: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
         };
-        const todos = {
-            ...todoData,
-        };
-        this.props.edit == true? this.props.onEditingData(todos):
-        this.props.onAddingData(todos);
-        this.props.history.push('/')
-        
+        let edit = false
+        edit == true ? 
+            dispatch(editTodo(todoData)):
+            dispatch(addTodo(todoData));
+        console.log(todoData)
     };
     
-
-    render() {
+    render(){        
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="create-edit-task">
@@ -88,9 +87,9 @@ class CreateEditTask extends React.Component {
                         </Link>
                         
                             <button className="create-edit-task-button" type="submit" className="create-edit-task-button">
-                                {/* <Link to="/"> */}
+                                <Link to="/">
                                     Save
-                                    {/* </Link> */}
+                                    </Link>
                                 </button>
                     </div>
                 </div>
@@ -99,4 +98,4 @@ class CreateEditTask extends React.Component {
     }
 }
 
-export default withRouter(CreateEditTask)
+export default connect()(CreateEditTask)
