@@ -1,25 +1,23 @@
 import React from "react"
 import './CreateEditTask.css'
 import { Link, withRouter } from "react-router-dom";
-import { addTodo } from '../actions'
-import { editTodo } from '../actions'
-import { connect } from 'react-redux'
+// import history from '../routeHistory';
 
 class CreateEditTask extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
+
         this.state = {
             title: "",
             createdBy: "",
             dateOfCreation: "",
             deadline: "",
             description: "",
-            id: ""
         }
 
-        this.state.id = this.props.edit === true ? localStorage.getItem('id') : null
-        if(this.state.id != null){
-            const task = this.props.todos.find(element => element.id == this.state.id)
+        const id = props.edit == true ? localStorage.getItem('id') : null
+        if(props.edit == true){
+            const task = props.todoList.find(element => element.id == id)
             this.state.title = task.title
             this.state.createdBy = task.createdBy
             this.state.dateOfCreation = task.dateOfCreation
@@ -34,17 +32,17 @@ class CreateEditTask extends React.Component {
         })
     }
     handleCreatedByChange = (event) => {
-            this.setState({
+        this.setState({
             createdBy: event.target.value
         })
     }
     handleDeadlineChange = (event) => {
-            this.setState({
+        this.setState({
             deadline: event.target.value
         })
     }
     handleDescriptionChange = (event) => {
-            this.setState({
+        this.setState({
             description: event.target.value
         })
     }
@@ -52,6 +50,7 @@ class CreateEditTask extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         let today = new Date();
+
         this.state.dateOfCreation = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         const todoData = {
             title: this.state.title,
@@ -59,17 +58,21 @@ class CreateEditTask extends React.Component {
             dateOfCreation: this.state.dateOfCreation,
             deadline: this.state.deadline,
             description: this.state.description,
-            id: this.state.id
+            id: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
         };
-        this.props.edit ==  false ? 
-            this.props.addTodo(todoData):
-            this.props.editTodo(todoData);
+        const todos = {
+            ...todoData,
+        };
+        this.props.edit == true? this.props.onEditingData(todos):
+        this.props.onAddingData(todos);
         this.props.history.push('/')
+        
     };
     
-    render(){        
+
+    render() {
         return (
-            <form onSubmit={this.handleSubmit.bind(this)}>
+            <form onSubmit={this.handleSubmit}>
                 <div className="create-edit-task">
                     <label className="form-label">Title: </label>
                     <input className="form-input" type="text" value={this.state.title} onChange={this.handleTitleChange} />
@@ -85,7 +88,9 @@ class CreateEditTask extends React.Component {
                         </Link>
                         
                             <button className="create-edit-task-button" type="submit" className="create-edit-task-button">
+                                {/* <Link to="/"> */}
                                     Save
+                                    {/* </Link> */}
                                 </button>
                     </div>
                 </div>
@@ -94,17 +99,4 @@ class CreateEditTask extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-  return {
-    todos: state.todos
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addTodo: (todo) => { dispatch(addTodo(todo)) },
-    editTodo: (todo) => { dispatch(editTodo(todo)) }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateEditTask))
+export default withRouter(CreateEditTask)

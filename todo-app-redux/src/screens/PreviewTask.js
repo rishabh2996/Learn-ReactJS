@@ -1,18 +1,20 @@
 import React from "react"
 import './PreviewTask.css'
 import { Link } from "react-router-dom";
-import {withRouter} from "react-router-dom"
+import { deleteTodo } from "../actions";
+import { connect } from 'react-redux'
 
 function PreviewTask(props) {
 
     const queryString = window.location.pathname;
     const id = queryString.slice(14, queryString.length)
 
-    const task = props.todoList.find(element => element.id == id)
+    const task = props.todos.find(element => element.id == id)
     localStorage.setItem('id', id)
 
     const handleDelete = () => {
-        props.onDeletingData(task);
+        console.log(id)
+        props.deleteTodo(id)
     }
 
     return (
@@ -50,4 +52,16 @@ function PreviewTask(props) {
     );
 }
 
-export default withRouter(PreviewTask)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteTodo: (id) => dispatch(deleteTodo(id)),
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    todos: state.todos
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreviewTask)
